@@ -70,6 +70,19 @@ See [indico-fe/README.md](indico-fe/README.md) for full feature list and project
 
 - Docker & Docker Compose
 
+### Setup Environment
+
+Create a `.env` file in the root directory for Docker Compose:
+
+```bash
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=postgres
+DB_NAME=indico_db
+DB_SSLMODE=disable
+```
+
 ### Run All Services
 
 ```bash
