@@ -1,0 +1,58 @@
+services:
+  db:
+    image: postgres:16
+    container_name: indico_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_NAME:-indico_db}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-indico_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./indico-be
+      dockerfile: Dockerfile
+    container_name: indico_backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_NAME: ${DB_NAME:-indico_db}
+      DB_SSLMODE: ${DB_SSLMODE:-disable}
+      PORT: ${PORT:-8080}
+      WORKERS: ${WORKERS:-8}
+      BATCH_SIZE: ${BATCH_SIZE:-10000}
+      RESULT_DIR: ${RESULT_DIR:-/tmp/settlements}
+    ports:
+      - "${PORT:-8080}:${PORT:-8080}"
+    volumes:
+      - settlements_data:${RESULT_DIR:-/tmp/settlements}
+
+  frontend:
+    build:
+      context: ./indico-fe
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-https://jsonplaceholder.typicode.com}
+    container_name: indico_frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres_data:
+  settlements_data:

@@ -1,0 +1,6 @@
+[submodule "indico-be"]
+	path = indico-be
+	url = git@github.com:shoelfikar/indico-backend.git
+[submodule "indico-fe"]
+	path = indico-fe
+	url = git@github.com:shoelfikar/indico-frontend.git
