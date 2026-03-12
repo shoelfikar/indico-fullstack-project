@@ -2,6 +2,25 @@
 
 Fullstack application consisting of a **Go REST API backend** and a **Next.js frontend**, built as part of the Indico Developer Assignment.
 
+This repository uses **git submodules** — `indico-be` and `indico-fe` are separate repositories.
+
+## Clone
+
+```bash
+# Clone with submodules in one step
+git clone --recurse-submodules <repo-url>
+
+# Or if already cloned without submodules
+git submodule update --init --recursive
+```
+
+### Submodule Repositories
+
+| Submodule | Repository |
+|-----------|------------|
+| `indico-be/` | [shoelfikar/indico-backend](https://github.com/shoelfikar/indico-backend) |
+| `indico-fe/` | [shoelfikar/indico-frontend](https://github.com/shoelfikar/indico-frontend) |
+
 ## Projects
 
 | Service | Directory | Tech | Port |
