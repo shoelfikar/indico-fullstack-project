@@ -8,7 +8,7 @@ This repository uses **git submodules** — `indico-be` and `indico-fe` are sepa
 
 ```bash
 # Clone with submodules in one step
-git clone --recurse-submodules <repo-url>
+git clone --recurse-submodules https://github.com/shoelfikar/indico-fullstack-project.git
 
 # Or if already cloned without submodules
 git submodule update --init --recursive
